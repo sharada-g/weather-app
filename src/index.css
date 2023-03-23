@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .nav {
+    @apply font-poppins text-primary font-normal text-lg uppercase hover:text-secondary  transition-all duration-300 ease-in-out;
+  }
+
+  .btn {
+    @apply shadow px-2 nav;
+  }
+  .data-container {
+    @apply rounded  h-full border-b-2 border-secondary my-5;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }
+}
