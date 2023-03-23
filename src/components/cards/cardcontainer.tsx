@@ -1,5 +1,11 @@
 import React, { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { useNavigate } from "react-router-dom";
+
+import { useSelector } from "react-redux";
+
+import { selectLocation } from "../../features/app/appSlice";
+import { useGetWeatherQuery } from "../../features/weather/weatherSlice";
 
 import refresh_icon from "../../assets/refresh_icon.svg";
 
@@ -28,7 +34,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
 
 const SkeletonCard = () => {
   const SkeletonElement = (
-    <div className="flex justify-between p-4">
+    <div className="h-full flex justify-between p-4">
       <div>
         <div className="w-24 h-2.5 bg-secondary rounded-full mb-2.5"></div>
         <div className="w-32 h-2 bg-secondary rounded-full"></div>
@@ -39,7 +45,11 @@ const SkeletonCard = () => {
 
   return (
     <div className="data-container rounded shadow animate-pulse">
-      {Array(2).fill(SkeletonElement)}
+      {Array(2)
+        .fill(0)
+        .map((_, index) => (
+          <div key={index}>{SkeletonElement}</div>
+        ))}
     </div>
   );
 };
@@ -49,15 +59,17 @@ type CardcontainerProps = {
 };
 
 const Cardcontainer = ({ children }: CardcontainerProps) => {
+  const navigate = useNavigate();
+
   return (
     <ErrorBoundary
       FallbackComponent={ErrorFallback}
       onReset={() => {
-        // reset the state of your app so the error doesn't happen again
+        navigate(location.pathname);
       }}
     >
       <Suspense fallback={<SkeletonCard />}>
-        <div className="data-container">{children}</div>
+        <article className="data-container">{children}</article>
       </Suspense>
     </ErrorBoundary>
   );

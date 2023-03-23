@@ -1,84 +1,72 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import Datacontainer from "../components/cards/datacontainer";
+import useGetWeather from "../hooks/useGetweather";
+
+import { setDay, selectDay } from "../features/app/appSlice";
+import { Days } from "../models/app";
+import { day } from "../models/weather";
+
+import Datacontainer from "../features/weather/weatherContainer";
 
 type StepperButtonsProps = {
-  id: number;
-  name: string;
-  date: string;
-  active: boolean;
-  image: string;
-  onClick: (id: number) => void;
+  item: day | undefined;
+  index: number;
 };
 
-const StepperButtons = ({
-  id,
-  name,
-  date,
-  active,
-  image,
-  onClick,
-}: StepperButtonsProps) => {
-  const handleClick = () => {
-    onClick(id);
-  };
+const StepperButtons = ({ item, index }: StepperButtonsProps) => {
+  const day = useSelector(selectDay);
+  const dispatch = useDispatch();
 
-  const activeClass = active ? "border-b-2 border-secondary rounded" : "";
+  const activeClass = day == index ? "border-b-2 border-secondary " : "";
+
+  const handleClick = () => {
+    if (item?.title.name === "Tomorrow") dispatch(setDay(Days.TOMORROW));
+    else if (item?.title.name === "Day after tomorrow")
+      dispatch(setDay(Days.DAYAFTERTOMORROW));
+    else dispatch(setDay(Days.DAYAFTERDAYAFTERTOMORROW));
+  };
 
   return (
     <button
-      className={`nav flex items-center gap-2 font-poppins space-x-2.5 ${activeClass}`}
+      className={`w-full nav flex items-center justify-start gap-2 font-poppins space-x-2.5 ${activeClass}`}
       onClick={handleClick}
     >
-      <img className="h-12 object-contain" src={image} alt="weather icon" />
+      <img
+        className="h-12 object-contain"
+        src={item?.forcast.icon}
+        alt="weather icon"
+      />
 
       <span>
-        <h3 className="font-medium leading-tight">{name}</h3>
-        <p className="text-sm">{date}</p>
+        <h3 className="font-medium leading-tight">{item?.title.name}</h3>
+        <p className="text-sm">{item?.forcast.condition}</p>
       </span>
     </button>
   );
 };
 
 const Stepper = () => {
-  const [active, setActive] = useState<number>(1);
+  const [data, weatherData] = useGetWeather();
 
-  const handleClick = (id: number) => {
-    setActive(id);
-  };
+  const mappedWeatherData = [
+    weatherData?.tomorrow,
+    weatherData?.dayAfterTomorrow,
+    weatherData?.dayAfterDayAfterTomorrow,
+  ];
 
   return (
-    <div className=" w-full flex justify-between  mb-5">
-      <StepperButtons
-        id={1}
-        name="Today"
-        date="Monday, 12 April"
-        active={active == 1 ? true : false}
-        image="//cdn.weatherapi.com/weather/128x128/day/116.png"
-        onClick={handleClick}
-      />
-      <StepperButtons
-        id={2}
-        name="Tomorrow"
-        date="Tuesday, 13 April"
-        active={active == 2 ? true : false}
-        image="//cdn.weatherapi.com/weather/128x128/day/176.png"
-        onClick={handleClick}
-      />
-
-      <StepperButtons
-        id={3}
-        name="Wednesday"
-        date="Wednesday, 14 April"
-        active={active == 3 ? true : false}
-        image="//cdn.weatherapi.com/weather/128x128/night/176.png"
-        onClick={handleClick}
-      />
+    <div className=" w-full flex justify-evenly gap-2 mb-5">
+      {mappedWeatherData.map((day, index) => {
+        return <StepperButtons key={index} item={day} index={index + 1} />;
+      })}
     </div>
   );
 };
 
 const ForcastView = () => {
+  const dispatch = useDispatch();
+
+  dispatch(setDay(Days.TOMORROW));
   return (
     <div className="w-3/5 mt-5">
       <Stepper />

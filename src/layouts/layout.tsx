@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-
 import { Outlet } from "react-router-dom";
 
 import Header from "../components/header/header";
@@ -20,7 +19,11 @@ const SkeletionView = () => {
 
   return (
     <div className="w-3/5 mt-20 data-container rounded shadow animate-pulse">
-      {Array(4).fill(SkeletonElement)}
+      {Array(4)
+        .fill(0)
+        .map((_, index) => (
+          <div key={index}>{SkeletonElement}</div>
+        ))}
     </div>
   );
 };

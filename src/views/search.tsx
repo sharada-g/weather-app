@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../components/header/logo";
-import Searchbar from "../components/header/searchbar";
+import Searchbar from "../features/search/searchbar";
 
 const SearchView = () => {
   return (
