@@ -30,7 +30,7 @@ const SkeletionView = () => {
 
 const Layout = () => {
   return (
-    <div className="flex flex-col items-center ">
+    <div className="flex flex-col items-center mb-10">
       <Header />
       <Suspense fallback={<SkeletionView />}>
         <Outlet />

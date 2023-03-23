@@ -2,11 +2,6 @@ import React, { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-
-import { selectLocation } from "../../features/app/appSlice";
-import { useGetWeatherQuery } from "../../features/weather/weatherSlice";
-
 import refresh_icon from "../../assets/refresh_icon.svg";
 
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {

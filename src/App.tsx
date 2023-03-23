@@ -44,13 +44,11 @@ const ProtectedRoute = () => {
       });
   }
 
-  const { data, isSuccess, isLoading, isFetching, isError } =
-    useGetLocationsQuery(ip, {
-      skip: ip === "" || storedValue.method !== Method.NONE,
-    });
+  const { data, isSuccess, isError } = useGetLocationsQuery(ip, {
+    skip: ip === "" || storedValue.method !== Method.NONE,
+  });
 
   if (isSuccess && data) {
-    console.log(data);
     dispatch(setMethod(Method.FROMIPADDRESS));
     dispatch(setLocation(data[0]));
   }
@@ -63,7 +61,7 @@ const ProtectedRoute = () => {
 
 function App() {
   return (
-    <main className="bg-background w-full h-auto min-h-screen">
+    <main className="bg-background h-full min-h-screen ">
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Layout />}>

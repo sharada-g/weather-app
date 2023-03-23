@@ -6,7 +6,7 @@ import { App, Method } from "../models/app";
 
 const useLocalstorage = () => {
   const dispatch = useDispatch();
-  const key = "app";
+  const key = "weather_app";
 
   const appData = useSelector((state: any) => state.app);
 
