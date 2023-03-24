@@ -24,7 +24,7 @@ const Datacontainer = () => {
   return (
     <div className="grid lg:grid-cols-2 gap-2 lg:gap-4">
       <div className="lg:col-span-2">
-        <h1 className="font-playfair font-medium text-xl md:text-3xl text-primary text-left">
+        <h1 className="font-playfair font-semibold md:font-medium text-xl md:text-3xl text-primary text-center md:text-left mb-5 md:mb-1">
           {title}
         </h1>
         <h2 className="font-poppins font-light text-sm text-secondary text-left">
