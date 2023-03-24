@@ -8,9 +8,6 @@ type ForcastcardProps = {
 };
 
 const Forcastcard = ({ data }: ForcastcardProps) => {
-  if (!data) {
-    throw new Promise(() => {});
-  }
   return (
     <div className="w-full h-full  flex justify-between">
       <div className="h-full flex flex-col justify-center items-start w-2/4 gap-4">

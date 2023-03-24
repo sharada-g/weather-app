@@ -9,7 +9,7 @@ const Today = () => {
 
   dispatch(setDay(Days.TODAY));
   return (
-    <div className="w-3/5 mt-20">
+    <div className="m-4 xl:w-3/5 lg:mt-20">
       <Datacontainer />
     </div>
   );

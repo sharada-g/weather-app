@@ -7,7 +7,7 @@ import refresh_icon from "../../assets/refresh_icon.svg";
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   return (
     <div className="data-container">
-      <div className="flex flex-col justify-center items-center">
+      <div className="h-full flex flex-col justify-center items-center">
         <p className="font-poppins font-normal text-lg text-primary">
           Something went wrong
         </p>
@@ -29,7 +29,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
 
 const SkeletonCard = () => {
   const SkeletonElement = (
-    <div className="h-full flex justify-between p-4">
+    <div className="h-full w-full flex justify-between p-4 ">
       <div>
         <div className="w-24 h-2.5 bg-secondary rounded-full mb-2.5"></div>
         <div className="w-32 h-2 bg-secondary rounded-full"></div>
@@ -39,7 +39,7 @@ const SkeletonCard = () => {
   );
 
   return (
-    <div className="data-container rounded shadow animate-pulse">
+    <div className="data-container w-full  rounded shadow animate-pulse">
       {Array(2)
         .fill(0)
         .map((_, index) => (

@@ -22,9 +22,9 @@ const Datacontainer = () => {
     : "";
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <div className="col-span-2">
-        <h1 className="font-playfair font-medium text-3xl text-primary text-left">
+    <div className="grid lg:grid-cols-2 gap-2 lg:gap-4">
+      <div className="lg:col-span-2">
+        <h1 className="font-playfair font-medium text-xl md:text-3xl text-primary text-left">
           {title}
         </h1>
         <h2 className="font-poppins font-light text-sm text-secondary text-left">
@@ -46,7 +46,7 @@ const Datacontainer = () => {
           <Astrocard data={data?.astro} />
         </Cardcontainer>
       </div>
-      <div className="row-start-2 col-start-2 row-span-2">
+      <div className="lg:row-start-2 lg:col-start-2 lg:row-span-2">
         <Cardcontainer>
           <DetailCard data={data?.details} />
         </Cardcontainer>

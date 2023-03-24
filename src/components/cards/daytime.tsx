@@ -41,9 +41,6 @@ type DaytimCardProps = {
 };
 
 const DaytimCard = ({ data }: DaytimCardProps) => {
-  if (!data) {
-    throw new Promise(() => {});
-  }
   return (
     <div className="h-full w-full flex gap-1">
       {data?.map((itemData: ForcastCard, index) => (

@@ -15,9 +15,6 @@ type DetailCardProps = {
 };
 
 const DetailCard = ({ data }: DetailCardProps) => {
-  if (!data) {
-    throw new Promise(() => {});
-  }
   return (
     <div className="h-full flex flex-col justify-center gap-4">
       <Datafield

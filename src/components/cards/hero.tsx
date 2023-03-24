@@ -5,10 +5,6 @@ type HerocardProps = {
 };
 
 const Herocard = ({ data }: HerocardProps) => {
-  if (!data) {
-    throw new Promise(() => {});
-  }
-
   return (
     <div className="h-full flex justify-between items-center">
       <div className="flex flex-col justify-end w-2/4">

@@ -22,13 +22,13 @@ const Header = () => {
       : `Based on your search.`;
 
   return (
-    <div className="flex flex-col w-3/4">
-      <div className="flex justify-between items-center w-full pt-12 pb-3 rounded border-secondary border-b-2">
+    <div className="flex flex-col w-full m-4 lg:m-1  lg:w-5/6 xl:w-3/4">
+      <div className="flex flex-col lg:flex-row justify-evenly lg:justify-between items-center w-full lg:pt-12 pb-3 gap-2 rounded border-secondary border-b-2">
         <Logo />
         <NavBar />
         <Searchbar />
       </div>
-      <p className="text-right font-poppins font-light text-sm text-primary">
+      <p className="mt-4 text-center md:text-right font-poppins font-light text-xs md:text-sm text-primary">
         {address} - {fetchFrom}
       </p>
     </div>

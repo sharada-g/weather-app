@@ -28,18 +28,20 @@ const StepperButtons = ({ item, index }: StepperButtonsProps) => {
 
   return (
     <button
-      className={`w-full nav flex items-center justify-start gap-2 font-poppins space-x-2.5 ${activeClass}`}
+      className={`nav  w-full  flex flex-col md:flex-row items-center justify-start gap-2 font-poppins space-x-2.5 ${activeClass}`}
       onClick={handleClick}
     >
       <img
-        className="h-12 object-contain"
+        className="h-8 md:h-10 lg:h-16 object-contain"
         src={item?.forcast.icon}
         alt="weather icon"
       />
 
       <span>
-        <h3 className="font-medium leading-tight">{item?.title.name}</h3>
-        <p className="text-sm">{item?.forcast.condition}</p>
+        <h3 className="text-sm xl:text-base font-medium leading-tight">
+          {item?.title.name}
+        </h3>
+        <p className="text-xs xl:text-sm">{item?.forcast.condition}</p>
       </span>
     </button>
   );
@@ -68,7 +70,7 @@ const ForcastView = () => {
 
   dispatch(setDay(Days.TOMORROW));
   return (
-    <div className="w-3/5 mt-5">
+    <div className="m-4 xl:w-3/5 lg:mt-5">
       <Stepper />
       <Datacontainer />
     </div>

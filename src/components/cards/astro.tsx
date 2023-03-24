@@ -10,9 +10,6 @@ type AstrocardProps = {
 };
 
 const Astrocard = ({ data }: AstrocardProps) => {
-  if (!data) {
-    throw new Promise(() => {});
-  }
   return (
     <div className="h-full flex flex-col justify-center gap-4">
       <h1 className="font-playfair font-medium text-2xl text-left text-primary ">
