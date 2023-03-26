@@ -1,4 +1,4 @@
-import { Location } from "./location";
+import { ILocation } from "./location";
 
 export enum Method {
   NONE,
@@ -6,15 +6,7 @@ export enum Method {
   FROMSEARCH,
 }
 
-export enum Days {
-  TODAY,
-  TOMORROW,
-  DAYAFTERTOMORROW,
-  DAYAFTERDAYAFTERTOMORROW,
-}
-
-export interface App {
+export interface IApp {
   method: Method;
   location: Location | null;
-  day: Days;
 }

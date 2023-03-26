@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import appReducer from "../features/app/appSlice";
-import { apiSlice } from "../features/api/apiSlice";
+import appReducer from "../slices/appSlice";
+import searchReducer from "../slices/searchSlice";
+import weatherReducer from "../slices/weatherSlice";
 
 export const store = configureStore({
   reducer: {
     app: appReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
+    search: searchReducer,
+    weather: weatherReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
 });

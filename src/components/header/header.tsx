@@ -5,7 +5,7 @@ import { Location } from "../../models/location";
 
 import Logo from "./logo";
 import NavBar from "./navbar";
-import Searchbar from "../../features/search/searchbar";
+import Searchbar from "../search/searchbar";
 
 const Header = () => {
   const [storedValue] = useLocalstorage();

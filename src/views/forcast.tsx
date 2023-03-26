@@ -1,21 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import useGetWeather from "../hooks/useGetweather";
+import {
+  setDay,
+  selectWeatherData,
+  selectWeatherStatus,
+  selectWeatherDayName,
+} from "../slices/weatherSlice";
 
-import { setDay, selectDay } from "../features/app/appSlice";
-import { Days } from "../models/app";
-import { day } from "../models/weather";
+import { IDay, Days, IWeather, IApiStatus } from "../models/weather";
 
-import Datacontainer from "../features/weather/weatherContainer";
+import Title from "../components/weather/title";
+import Forcastcard from "../components/weather/forcast";
+import Astrocard from "../components/weather/astro";
+import DetailCard from "../components/weather/details";
+import DaytimeCard from "../components/weather/daytime";
+import { useEffect } from "react";
 
 type StepperButtonsProps = {
-  item: day | undefined;
-  index: number;
+  item: IDay;
+  index: Days;
 };
 
 const StepperButtons = ({ item, index }: StepperButtonsProps) => {
-  const day = useSelector(selectDay);
   const dispatch = useDispatch();
+
+  const day = useSelector(selectWeatherDayName);
 
   const activeClass = day == index ? "border-b-2 border-secondary " : "";
 
@@ -32,7 +41,7 @@ const StepperButtons = ({ item, index }: StepperButtonsProps) => {
       onClick={handleClick}
     >
       <img
-        className="h-8 md:h-10 lg:h-16 object-contain"
+        className="h-8 md:h-10  object-contain"
         src={item?.forcast.icon}
         alt="weather icon"
       />
@@ -48,31 +57,47 @@ const StepperButtons = ({ item, index }: StepperButtonsProps) => {
 };
 
 const Stepper = () => {
-  const [data, weatherData] = useGetWeather();
-
-  const mappedWeatherData = [
-    weatherData?.tomorrow,
-    weatherData?.dayAfterTomorrow,
-    weatherData?.dayAfterDayAfterTomorrow,
-  ];
+  const weatherData: IWeather = useSelector(selectWeatherData);
 
   return (
     <div className=" w-full flex justify-evenly gap-2 mb-5">
-      {mappedWeatherData.map((day, index) => {
-        return <StepperButtons key={index} item={day} index={index + 1} />;
-      })}
+      <StepperButtons item={weatherData?.tomorrow} index={Days.TOMORROW} />
+      <StepperButtons
+        item={weatherData?.dayAfterTomorrow}
+        index={Days.DAYAFTERTOMORROW}
+      />
+      <StepperButtons
+        item={weatherData?.dayAfterDayAfterTomorrow}
+        index={Days.DAYAFTERDAYAFTERTOMORROW}
+      />
     </div>
   );
 };
 
 const ForcastView = () => {
   const dispatch = useDispatch();
+  const status = useSelector(selectWeatherStatus);
 
-  dispatch(setDay(Days.TOMORROW));
+  useEffect(() => {
+    if (status == IApiStatus.Succeeded) {
+      dispatch(setDay(Days.TOMORROW));
+    }
+  }, [status, dispatch]);
+
   return (
-    <div className="m-4 xl:w-3/5 lg:mt-5">
+    <div className=" m-4 lg:mt-5">
       <Stepper />
-      <Datacontainer />
+      <div className="grid lg:grid-cols-2 lg:gap-4">
+        <div className="lg:col-span-2">
+          <Title />
+        </div>
+        <Forcastcard />
+        <Astrocard />
+        <div className="lg:row-start-2 lg:col-start-2 lg:row-span-3">
+          <DetailCard />
+        </div>
+        <DaytimeCard />
+      </div>
     </div>
   );
 };

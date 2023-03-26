@@ -1,5 +1,13 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { Outlet } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import { selectLocation } from "../slices/appSlice";
+
+import { fetchWeather, selectWeatherStatus } from "../slices/weatherSlice";
+
+import { IApiStatus } from "../models/weather";
 
 import Header from "../components/header/header";
 
@@ -29,6 +37,19 @@ const SkeletionView = () => {
 };
 
 const Layout = () => {
+  const dispatch = useDispatch();
+
+  const location = useSelector(selectLocation);
+  const city = location?.url;
+
+  const status = useSelector(selectWeatherStatus);
+
+  useEffect(() => {
+    if (status == IApiStatus.Idle) {
+      dispatch(fetchWeather(city));
+    }
+  }, [status, dispatch, location]);
+
   return (
     <div className="flex flex-col items-center mb-10">
       <Header />

@@ -1,7 +1,20 @@
-import { apiSlice } from "../api/apiSlice";
-import { Weather, day } from "../../models/weather";
+import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const getDayData = (day: number, response: any): day => {
+import {
+  IWeather,
+  IDay,
+  Days,
+  ITitle,
+  IHero,
+  IDetails,
+  IForcast,
+  IAstro,
+  IForcastCard,
+} from "../models/weather";
+import { IApiStatus, IApiWeather } from "../models/weather";
+
+const getDayData = (day: number, response: any): IDay => {
   let name = "";
 
   switch (day) {
@@ -99,26 +112,99 @@ const getDayData = (day: number, response: any): day => {
   };
 };
 
-export const weatherApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    getWeather: builder.query({
-      query: (city: string) =>
+export const fetchWeather = createAsyncThunk(
+  "weather/fetchWeather",
+  async (city: string) => {
+    try {
+      const response = await axios.get(
         `forecast.json?key=${
           import.meta.env.VITE_API_KEY
-        }&q=${city}&days=4&aqi=no&alerts=no`,
-      transformResponse: (response: any) => {
-        const loadedWeather: Weather = {
-          today: getDayData(0, response),
-          tomorrow: getDayData(1, response),
-          dayAfterTomorrow: getDayData(2, response),
-          dayAfterDayAfterTomorrow: getDayData(3, response),
-        };
+        }&q=${city}&days=4&aqi=no&alerts=no`
+      );
+      return response.data;
+    } catch (error: Error | any) {
+      return error?.message;
+    }
+  }
+);
+const initialState: IApiWeather = {
+  data: {} as IWeather,
+  day: {} as IDay,
+  dayName: Days.TODAY,
+  status: IApiStatus.Idle,
+  error: null,
+};
 
-        return loadedWeather;
-      },
-      providesTags: ["Weather"],
-    }),
-  }),
+export const weattherSlice = createSlice({
+  name: "weather",
+  initialState,
+  reducers: {
+    setDay: (state, action) => {
+      const day: Days = action.payload;
+
+      switch (day) {
+        case Days.TODAY:
+          state.dayName = Days.TODAY;
+          state.day = state.data.today;
+          break;
+        case Days.TOMORROW:
+          state.dayName = Days.TOMORROW;
+          state.day = state.data.tomorrow;
+          break;
+        case Days.DAYAFTERTOMORROW:
+          state.dayName = Days.DAYAFTERTOMORROW;
+          state.day = state.data.dayAfterTomorrow;
+          break;
+        case Days.DAYAFTERDAYAFTERTOMORROW:
+          state.dayName = Days.DAYAFTERDAYAFTERTOMORROW;
+          state.day = state.data.dayAfterDayAfterTomorrow;
+          break;
+        default:
+          state.dayName = Days.TODAY;
+          state.day = state.data.today;
+          break;
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchWeather.pending, (state) => {
+      state.status = IApiStatus.Loading;
+    });
+    builder.addCase(fetchWeather.fulfilled, (state, action) => {
+      state.status = IApiStatus.Succeeded;
+      const response = action.payload;
+      const loadedWeather: IWeather = {
+        today: getDayData(0, response),
+        tomorrow: getDayData(1, response),
+        dayAfterTomorrow: getDayData(2, response),
+        dayAfterDayAfterTomorrow: getDayData(3, response),
+      };
+      state.data = loadedWeather;
+    });
+    builder.addCase(fetchWeather.rejected, (state, action) => {
+      state.status = IApiStatus.Failed;
+      state.error = action.error.message;
+    });
+  },
 });
 
-export const { useGetWeatherQuery } = weatherApiSlice;
+export const selectWeatherStatus = (state: any) => state.weather.status;
+
+export const selectWeatherData = (state: any): IWeather => state.weather.data;
+
+export const selectWeatherTitle = (state: any): ITitle =>
+  state.weather.day.title;
+export const selectWeatherHero = (state: any) => state.weather.day.hero;
+export const selectWeatherForcast = (state: any): IForcast =>
+  state.weather.day.forcast;
+export const selectWeatherAstro = (state: any): IAstro =>
+  state.weather.day.astro;
+export const selectWeatherDetails = (state: any): IDetails =>
+  state.weather.day.details;
+export const selectWeatherDay = (state: any): IForcastCard[] =>
+  state.weather.day.day;
+
+export const selectWeatherDayName = (state: any): Days => state.weather.dayName;
+export const { setDay } = weattherSlice.actions;
+
+export default weattherSlice.reducer;

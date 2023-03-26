@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { App, Method, Days } from "../../models/app";
+import { IApp, Method } from "../models/app";
 
-export const initialState: App = {
+export const initialState: IApp = {
   method: Method.NONE,
   location: null,
-  day: Days.TODAY,
 };
 
 export const appSlice = createSlice({
@@ -18,15 +17,11 @@ export const appSlice = createSlice({
     setLocation: (state, action) => {
       state.location = action.payload;
     },
-    setDay: (state, action) => {
-      state.day = action.payload;
-    },
   },
 });
 export const selectMethod = (state: any) => state.app.method;
 export const selectLocation = (state: any) => state.app.location;
-export const selectDay = (state: any) => state.app.day;
 
-export const { setMethod, setLocation, setDay } = appSlice.actions;
+export const { setMethod, setLocation } = appSlice.actions;
 
 export default appSlice.reducer;

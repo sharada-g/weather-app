@@ -1,4 +1,4 @@
-export interface Title {
+export interface ITitle {
   name: string;
   location: {
     name: string;
@@ -8,28 +8,28 @@ export interface Title {
   fetchTime: string;
 }
 
-export interface Hero {
+export interface IHero {
   temp: number;
   feelsLike: number;
   condition: string;
   icon: string;
 }
 
-export interface Forcast {
+export interface IForcast {
   chanceOfSnow: number;
   chanceOfRain: number;
   condition: string;
   icon: string;
 }
 
-export interface Astro {
+export interface IAstro {
   sunrise: string;
   sunset: string;
   moonrise: string;
   moonset: string;
 }
 
-export interface Details {
+export interface IDetails {
   temp: {
     min: number;
     max: number;
@@ -43,7 +43,7 @@ export interface Details {
   visibility: number;
 }
 
-export interface ForcastCard {
+export interface IForcastCard {
   name: string;
   temp: number;
   chanceOfSnow: number;
@@ -51,18 +51,40 @@ export interface ForcastCard {
   icon: string;
 }
 
-export interface day {
-  title: Title;
-  hero: Hero;
-  forcast: Forcast;
-  astro: Astro;
-  details: Details;
-  day: ForcastCard[];
+export enum Days {
+  TODAY,
+  TOMORROW,
+  DAYAFTERTOMORROW,
+  DAYAFTERDAYAFTERTOMORROW,
 }
 
-export interface Weather {
-  today: day;
-  tomorrow: day;
-  dayAfterTomorrow: day;
-  dayAfterDayAfterTomorrow: day;
+export interface IDay {
+  title: ITitle;
+  hero: IHero;
+  forcast: IForcast;
+  astro: IAstro;
+  details: IDetails;
+  day: IForcastCard[];
+}
+
+export interface IWeather {
+  today: IDay;
+  tomorrow: IDay;
+  dayAfterTomorrow: IDay;
+  dayAfterDayAfterTomorrow: IDay;
+}
+
+export enum IApiStatus {
+  Idle = "idle",
+  Loading = "loading",
+  Succeeded = "succeeded",
+  Failed = "failed",
+}
+
+export interface IApiWeather {
+  data: IWeather;
+  day?: IDay;
+  dayName?: Days;
+  status: IApiStatus;
+  error: any;
 }

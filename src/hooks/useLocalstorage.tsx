@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setMethod, setLocation } from "../features/app/appSlice";
-import { App, Method } from "../models/app";
+import { setMethod, setLocation } from "../slices/appSlice";
+import { IApp, Method } from "../models/app";
 
 const useLocalstorage = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const useLocalstorage = () => {
 
   const appData = useSelector((state: any) => state.app);
 
-  const [storedValue, setStoredValue] = useState<App>(() => {
+  const [storedValue, setStoredValue] = useState<IApp>(() => {
     try {
       const item = window.localStorage.getItem(key);
       const data = item ? JSON.parse(item) : appData;
@@ -24,7 +24,7 @@ const useLocalstorage = () => {
     }
   });
 
-  const setValue = (value: App) => {
+  const setValue = (value: IApp) => {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
       setStoredValue(value);
