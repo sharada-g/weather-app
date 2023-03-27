@@ -2,6 +2,7 @@ import { Suspense, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch } from "../app/store";
 
 import { selectLocation } from "../slices/appSlice";
 
@@ -37,7 +38,7 @@ const SkeletionView = () => {
 };
 
 const Layout = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const location = useSelector(selectLocation);
   const city = location?.url;
@@ -45,10 +46,10 @@ const Layout = () => {
   const status = useSelector(selectWeatherStatus);
 
   useEffect(() => {
-    if (status == IApiStatus.Idle) {
+    if (status == IApiStatus.Idle && city) {
       dispatch(fetchWeather(city));
     }
-  }, [status, dispatch, location]);
+  }, [status, dispatch, location, city]);
 
   return (
     <div className="flex flex-col items-center mb-10">

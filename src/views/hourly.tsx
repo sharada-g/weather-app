@@ -1,5 +1,3 @@
-import React from "react";
-
 const HourlyView = () => {
   return (
     <div className="w-full h-full flex justify-center items-center mt-10">

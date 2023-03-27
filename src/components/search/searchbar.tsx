@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../app/store";
+
 import useDebounce from "../../hooks/useDebounce";
 
-import { IApiStatus, ILocation } from "../../models/location";
-import { Method } from "../../models/app";
+import { setMethod, setLocation } from "../../slices/appSlice";
 
+import { IApiStatus, ILocation } from "../../models/location";
 import {
   fetchSearch,
   selectSearchData,
@@ -13,10 +15,9 @@ import {
 
 import { fetchWeather } from "../../slices/weatherSlice";
 
-import { setMethod, setLocation } from "../../slices/appSlice";
-
 import search_icon from "../../assets/search_icon.svg";
 import close_icon from "../../assets/close_icon.svg";
+import { Method } from "../../models/app";
 
 type ResultItemProps = {
   item: ILocation;
@@ -24,7 +25,7 @@ type ResultItemProps = {
 };
 
 const ResultItem = ({ item, onClearSearch }: ResultItemProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   // when result item is clicked event handler
   const onResultSelect = () => {
@@ -53,7 +54,7 @@ const ResultItem = ({ item, onClearSearch }: ResultItemProps) => {
 };
 
 const Searchbar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const data = useSelector(selectSearchData);
   const status = useSelector(selectSearchStatus);

@@ -8,5 +8,5 @@ export enum Method {
 
 export interface IApp {
   method: Method;
-  location: Location | null;
+  location: ILocation | null;
 }

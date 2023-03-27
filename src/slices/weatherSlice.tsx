@@ -1,4 +1,4 @@
-import axios from "axios";
+import { weatherApi } from "../utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import {
@@ -6,7 +6,6 @@ import {
   IDay,
   Days,
   ITitle,
-  IHero,
   IDetails,
   IForcast,
   IAstro,
@@ -116,13 +115,16 @@ export const fetchWeather = createAsyncThunk(
   "weather/fetchWeather",
   async (city: string) => {
     try {
-      const response = await axios.get(
-        `forecast.json?key=${
-          import.meta.env.VITE_API_KEY
-        }&q=${city}&days=4&aqi=no&alerts=no`
-      );
+      const response = await weatherApi.get(`forecast.json`, {
+        params: {
+          q: city,
+          days: 4,
+          aqi: "no",
+          alerts: "no",
+        },
+      });
       return response.data;
-    } catch (error: Error | any) {
+    } catch (error: any) {
       return error?.message;
     }
   }
@@ -171,15 +173,20 @@ export const weattherSlice = createSlice({
       state.status = IApiStatus.Loading;
     });
     builder.addCase(fetchWeather.fulfilled, (state, action) => {
-      state.status = IApiStatus.Succeeded;
-      const response = action.payload;
-      const loadedWeather: IWeather = {
-        today: getDayData(0, response),
-        tomorrow: getDayData(1, response),
-        dayAfterTomorrow: getDayData(2, response),
-        dayAfterDayAfterTomorrow: getDayData(3, response),
-      };
-      state.data = loadedWeather;
+      if (action.payload != "Network Error") {
+        state.status = IApiStatus.Succeeded;
+        const response = action.payload;
+        const loadedWeather: IWeather = {
+          today: getDayData(0, response),
+          tomorrow: getDayData(1, response),
+          dayAfterTomorrow: getDayData(2, response),
+          dayAfterDayAfterTomorrow: getDayData(3, response),
+        };
+        state.data = loadedWeather;
+      } else {
+        state.status = IApiStatus.Failed;
+        state.error = action.payload;
+      }
     });
     builder.addCase(fetchWeather.rejected, (state, action) => {
       state.status = IApiStatus.Failed;
@@ -188,7 +195,8 @@ export const weattherSlice = createSlice({
   },
 });
 
-export const selectWeatherStatus = (state: any) => state.weather.status;
+export const selectWeatherStatus = (state: any): IApiStatus =>
+  state.weather.status;
 
 export const selectWeatherData = (state: any): IWeather => state.weather.data;
 

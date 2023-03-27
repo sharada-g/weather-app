@@ -1,7 +1,7 @@
 import useLocalstorage from "../../hooks/useLocalstorage";
 
-import { Method, App } from "../../models/app";
-import { Location } from "../../models/location";
+import { Method, IApp } from "../../models/app";
+import { ILocation } from "../../models/location";
 
 import Logo from "./logo";
 import NavBar from "./navbar";
@@ -10,8 +10,8 @@ import Searchbar from "../search/searchbar";
 const Header = () => {
   const [storedValue] = useLocalstorage();
 
-  const app: App = storedValue;
-  const location: Location | null = app.location;
+  const app: IApp = storedValue;
+  const location: ILocation | null = app.location;
 
   const address = `${location?.name ? location?.name + ", " : ""}${
     location?.region ? location?.region + ", " : ""
