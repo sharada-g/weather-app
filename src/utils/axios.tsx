@@ -8,5 +8,5 @@ export const weatherApi = axios.create({
 });
 
 export const ipApi = axios.create({
-  baseURL: "https://api.ipify.org/",
+  baseURL: "https://ipapi.co/json/",
 });

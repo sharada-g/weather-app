@@ -55,7 +55,9 @@ const Layout = () => {
     <div className="flex flex-col items-center mb-10">
       <Header />
       <Suspense fallback={<SkeletionView />}>
-        <Outlet />
+        <div className="0 w-11/12 md:w-5/6 lg:w-9/12 xl:w-3/5">
+          <Outlet />
+        </div>
       </Suspense>
     </div>
   );

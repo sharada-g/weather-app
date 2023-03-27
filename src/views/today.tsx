@@ -21,7 +21,7 @@ const Today = () => {
   }, [status, dispatch]);
 
   return (
-    <div className="m-4  lg:mt-20">
+    <div className="m-4 lg:mt-20">
       <div className="grid lg:grid-cols-2 gap-2 lg:gap-4">
         <div className="lg:col-span-2">
           <Title />
