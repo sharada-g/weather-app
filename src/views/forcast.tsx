@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -14,7 +15,8 @@ import Forcastcard from "../components/weather/forcast";
 import Astrocard from "../components/weather/astro";
 import DetailCard from "../components/weather/details";
 import DaytimeCard from "../components/weather/daytime";
-import { useEffect } from "react";
+
+import Cardcontainer from "../components/weather/cardcontainer";
 
 type StepperButtonsProps = {
   item: IDay;
@@ -91,12 +93,24 @@ const ForcastView = () => {
         <div className="lg:col-span-2">
           <Title />
         </div>
-        <Forcastcard />
-        <Astrocard />
+        <Cardcontainer>
+          {" "}
+          <Forcastcard />
+        </Cardcontainer>
+
+        <Cardcontainer>
+          <Astrocard />
+        </Cardcontainer>
+
         <div className="lg:row-start-2 lg:col-start-2 lg:row-span-3">
-          <DetailCard />
+          <Cardcontainer>
+            <DetailCard />
+          </Cardcontainer>
         </div>
-        <DaytimeCard />
+
+        <Cardcontainer>
+          <DaytimeCard />
+        </Cardcontainer>
       </div>
     </div>
   );

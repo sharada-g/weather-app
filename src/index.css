@@ -10,8 +10,9 @@
   .btn {
     @apply shadow px-2 nav;
   }
+
   .data-container {
-    @apply rounded  h-full border-b-2 border-secondary my-5;
+    @apply rounded  h-full border-b-2 border-secondary my-5 shadow p-2;
   }
 }
 

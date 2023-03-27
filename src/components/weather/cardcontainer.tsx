@@ -7,7 +7,7 @@ import refresh_icon from "../../assets/refresh_icon.svg";
 const ErrorFallback = ({ error, resetErrorBoundary }: any) => {
   return (
     <div className="data-container">
-      <div className="h-full flex flex-col justify-center items-center">
+      <div className="h-full w-full flex flex-col justify-center items-center">
         <p className="font-poppins font-normal text-lg text-primary">
           Something went wrong
         </p>

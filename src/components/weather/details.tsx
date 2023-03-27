@@ -2,7 +2,6 @@ import { IDetails } from "../../models/weather";
 import { useSelector } from "react-redux";
 import { selectWeatherDetails } from "../../slices/weatherSlice";
 
-import Cardcontainer from "./cardcontainer";
 import Datafield from "./datafield";
 
 import temp_icon from "../../assets/temp_icon.svg";
@@ -17,37 +16,35 @@ import visibility_icon from "../../assets/visibility_icon.svg";
 const DetailCard = () => {
   const data: IDetails = useSelector(selectWeatherDetails);
   return (
-    <Cardcontainer>
-      <div className="h-full flex flex-col justify-between gap-4">
-        <Datafield
-          label="Max/Min temperature"
-          value={`${data?.temp.max}°/${data?.temp.min}°`}
-        >
-          <img src={temp_icon} alt="temp_icon" />
-        </Datafield>
-        <Datafield label="Humidity" value={`${data?.humidity}`}>
-          <img src={humidity_icon} alt="humidity_icon" />
-        </Datafield>
-        <Datafield label="Pressure" value={`${data?.pressure}mb`}>
-          <img src={pressure_icon} alt="pressure_icon" />
-        </Datafield>
-        <Datafield label="Precipitation" value={`${data?.precipitation}mm`}>
-          <img src={precipitation_icon} alt="precipitation_icon" />
-        </Datafield>
-        <Datafield label="Wind" value={`${data?.wind}kmp`}>
-          <img src={wind_icon} alt="wind_icon" />
-        </Datafield>
-        <Datafield label="Cloud" value={`${data?.cloud}`}>
-          <img src={cloud_icon} alt="cloud_icon" />
-        </Datafield>
-        <Datafield label="UV Index" value={`${data?.uvIndex}`}>
-          <img src={uv_icon} alt="uv_icon" />
-        </Datafield>
-        <Datafield label="Visibility" value={`${data?.visibility}km`}>
-          <img src={visibility_icon} alt="visibility_icon" />
-        </Datafield>
-      </div>
-    </Cardcontainer>
+    <div className="h-full flex flex-col justify-between gap-4">
+      <Datafield
+        label="Max/Min temperature"
+        value={`${data?.temp.max}°/${data?.temp.min}°`}
+      >
+        <img src={temp_icon} alt="temp_icon" />
+      </Datafield>
+      <Datafield label="Humidity" value={`${data?.humidity}`}>
+        <img src={humidity_icon} alt="humidity_icon" />
+      </Datafield>
+      <Datafield label="Pressure" value={`${data?.pressure}mb`}>
+        <img src={pressure_icon} alt="pressure_icon" />
+      </Datafield>
+      <Datafield label="Precipitation" value={`${data?.precipitation}mm`}>
+        <img src={precipitation_icon} alt="precipitation_icon" />
+      </Datafield>
+      <Datafield label="Wind" value={`${data?.wind}kmp`}>
+        <img src={wind_icon} alt="wind_icon" />
+      </Datafield>
+      <Datafield label="Cloud" value={`${data?.cloud}`}>
+        <img src={cloud_icon} alt="cloud_icon" />
+      </Datafield>
+      <Datafield label="UV Index" value={`${data?.uvIndex}`}>
+        <img src={uv_icon} alt="uv_icon" />
+      </Datafield>
+      <Datafield label="Visibility" value={`${data?.visibility}km`}>
+        <img src={visibility_icon} alt="visibility_icon" />
+      </Datafield>
+    </div>
   );
 };
 
