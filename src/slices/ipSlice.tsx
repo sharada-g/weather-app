@@ -4,15 +4,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IApiStatus, IApiIp } from "../models/ip";
 
 export const fetchIp = createAsyncThunk("ip/fetchIp", async () => {
-  try {
-    const response = await ipApi.get("");
-    return response.data;
-  } catch (error: any) {
-    return error?.message;
-  }
+  const response = await ipApi.get("");
+  return response.data;
 });
 
-const initialState: IApiIp = {
+export const initialState: IApiIp = {
   data: "",
   status: IApiStatus.Idle,
   error: null,
@@ -27,13 +23,8 @@ export const ipSlice = createSlice({
       state.status = IApiStatus.Loading;
     });
     builder.addCase(fetchIp.fulfilled, (state, action) => {
-      if (action.payload != "Network Error") {
-        state.status = IApiStatus.Succeeded;
-        state.data = action.payload.ip;
-      } else {
-        state.status = IApiStatus.Failed;
-        state.error = action.payload;
-      }
+      state.status = IApiStatus.Succeeded;
+      state.data = action.payload.ip;
     });
     builder.addCase(fetchIp.rejected, (state, action) => {
       console.log(action.error);

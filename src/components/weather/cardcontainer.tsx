@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import refresh_icon from "../../assets/refresh_icon.svg";
 
@@ -55,6 +55,7 @@ type CardcontainerProps = {
 
 const Cardcontainer = ({ children }: CardcontainerProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <ErrorBoundary

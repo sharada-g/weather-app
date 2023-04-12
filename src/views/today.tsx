@@ -17,7 +17,7 @@ const Today = () => {
   const status = useSelector(selectWeatherStatus);
 
   useEffect(() => {
-    if (status == IApiStatus.Succeeded) {
+    if (status === IApiStatus.Succeeded) {
       dispatch(setDay(Days.TODAY));
     }
   }, [status, dispatch]);

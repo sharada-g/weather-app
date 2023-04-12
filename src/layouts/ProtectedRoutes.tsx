@@ -51,7 +51,15 @@ const ProtectedRoutes = ({ storedValue }: ProtectedRoutesProps) => {
         navigate("/search");
       }
     }
-  }, [storedValue.method, ipStatus, searchStatus]);
+  }, [
+    storedValue.method,
+    ipStatus,
+    searchStatus,
+    ipData,
+    searchData,
+    navigate,
+    dispatch,
+  ]);
 
   return content;
 };

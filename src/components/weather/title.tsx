@@ -1,4 +1,3 @@
-import {} from "react";
 import { useSelector } from "react-redux";
 import { ITitle } from "../../models/weather";
 

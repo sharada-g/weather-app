@@ -21,7 +21,7 @@ const SearchView = ({ storedValue }: SearchViewProps) => {
     ) {
       navigate("/");
     }
-  }, [storedValue?.method, location.pathname]);
+  }, [storedValue?.method, location.pathname, navigate]);
 
   return (
     <div className="w-full h-screen flex justify-center items-start md:items-center mt-10 md:mt-0">

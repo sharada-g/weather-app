@@ -28,7 +28,7 @@ const StepperButtons = ({ item, index }: StepperButtonsProps) => {
 
   const day = useSelector(selectWeatherDayName);
 
-  const activeClass = day == index ? "border-b-2 border-secondary " : "";
+  const activeClass = day === index ? "border-b-2 border-secondary " : "";
 
   const handleClick = () => {
     if (item?.title.name === "Tomorrow") dispatch(setDay(Days.TOMORROW));
@@ -81,7 +81,7 @@ const ForcastView = () => {
   const status = useSelector(selectWeatherStatus);
 
   useEffect(() => {
-    if (status == IApiStatus.Succeeded) {
+    if (status === IApiStatus.Succeeded) {
       dispatch(setDay(Days.TOMORROW));
     }
   }, [status, dispatch]);

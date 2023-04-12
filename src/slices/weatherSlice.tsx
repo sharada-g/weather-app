@@ -28,6 +28,7 @@ const getDayData = (day: number, response: any): IDay => {
       break;
     case 3:
       name = response.forecast.forecastday[day].date;
+      break;
     default:
       break;
   }
@@ -114,22 +115,18 @@ const getDayData = (day: number, response: any): IDay => {
 export const fetchWeather = createAsyncThunk(
   "weather/fetchWeather",
   async (city: string) => {
-    try {
-      const response = await weatherApi.get(`forecast.json`, {
-        params: {
-          q: city,
-          days: 4,
-          aqi: "no",
-          alerts: "no",
-        },
-      });
-      return response.data;
-    } catch (error: any) {
-      return error?.message;
-    }
+    const response = await weatherApi.get(`forecast.json`, {
+      params: {
+        q: city,
+        days: 4,
+        aqi: "no",
+        alerts: "no",
+      },
+    });
+    return response.data;
   }
 );
-const initialState: IApiWeather = {
+export const initialState: IApiWeather = {
   data: {} as IWeather,
   day: {} as IDay,
   dayName: Days.TODAY,
@@ -173,20 +170,16 @@ export const weattherSlice = createSlice({
       state.status = IApiStatus.Loading;
     });
     builder.addCase(fetchWeather.fulfilled, (state, action) => {
-      if (action.payload != "Network Error") {
-        state.status = IApiStatus.Succeeded;
-        const response = action.payload;
-        const loadedWeather: IWeather = {
-          today: getDayData(0, response),
-          tomorrow: getDayData(1, response),
-          dayAfterTomorrow: getDayData(2, response),
-          dayAfterDayAfterTomorrow: getDayData(3, response),
-        };
-        state.data = loadedWeather;
-      } else {
-        state.status = IApiStatus.Failed;
-        state.error = action.payload;
-      }
+      state.status = IApiStatus.Succeeded;
+      const response = action.payload;
+
+      const loadedWeather: IWeather = {
+        today: getDayData(0, response),
+        tomorrow: getDayData(1, response),
+        dayAfterTomorrow: getDayData(2, response),
+        dayAfterDayAfterTomorrow: getDayData(3, response),
+      };
+      state.data = loadedWeather;
     });
     builder.addCase(fetchWeather.rejected, (state, action) => {
       state.status = IApiStatus.Failed;

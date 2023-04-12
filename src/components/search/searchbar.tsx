@@ -60,6 +60,7 @@ const Searchbar = () => {
   const status = useSelector(selectSearchStatus);
 
   const [searchValue, setSearchValue] = useState<string>("");
+  const [lastSearchValue, setLastSearchValue] = useState<string>("");
   const [result, setResult] = useState<ILocation[]>([]);
 
   // event handler for search input
@@ -74,16 +75,21 @@ const Searchbar = () => {
 
   // update result when search value changes
   useEffect(() => {
-    if (debouncedSearchValue !== "" && status != IApiStatus.Loading) {
+    if (
+      debouncedSearchValue !== "" &&
+      status !== IApiStatus.Loading &&
+      lastSearchValue !== debouncedSearchValue
+    ) {
       dispatch(fetchSearch(debouncedSearchValue));
+      setLastSearchValue(debouncedSearchValue);
     }
-  }, [debouncedSearchValue, dispatch]);
+  }, [debouncedSearchValue, dispatch, status, lastSearchValue]);
 
   useEffect(() => {
-    if (status == IApiStatus.Succeeded && debouncedSearchValue !== "") {
+    if (status === IApiStatus.Succeeded && debouncedSearchValue !== "") {
       setResult(data);
     }
-    if (debouncedSearchValue === "" || status == IApiStatus.Failed) {
+    if (debouncedSearchValue === "" || status === IApiStatus.Failed) {
       setResult([]);
     }
   }, [status, dispatch, debouncedSearchValue, data]);

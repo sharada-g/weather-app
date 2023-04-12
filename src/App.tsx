@@ -1,16 +1,16 @@
 import { lazy } from "react";
 
-import { Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./layouts/ProtectedRoutes";
-
-import Layout from "./layouts/layout";
-const TodayView = lazy(() => import("./views/today"));
-const HourlyView = lazy(() => import("./views/hourly"));
-const ForcastView = lazy(() => import("./views/forcast"));
-
 import SearchView from "./views/search";
 import NotfoundView from "./views/notfound";
 import useLocalstorage from "./hooks/useLocalstorage";
+import Layout from "./layouts/layout";
+
+import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./layouts/ProtectedRoutes";
+
+const TodayView = lazy(() => import("./views/today"));
+const HourlyView = lazy(() => import("./views/hourly"));
+const ForcastView = lazy(() => import("./views/forcast"));
 
 function App() {
   const [storedValue] = useLocalstorage();

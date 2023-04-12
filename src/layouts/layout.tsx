@@ -46,7 +46,7 @@ const Layout = () => {
   const status = useSelector(selectWeatherStatus);
 
   useEffect(() => {
-    if (status == IApiStatus.Idle && city) {
+    if (status === IApiStatus.Idle && city) {
       dispatch(fetchWeather(city));
     }
   }, [status, dispatch, location, city]);

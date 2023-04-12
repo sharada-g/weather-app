@@ -6,20 +6,16 @@ import { ILocation, IApiStatus, IApiLocation } from "../models/location";
 export const fetchSearch = createAsyncThunk(
   "search/fetchSearch",
   async (city: string) => {
-    try {
-      const response = await weatherApi.get("search.json", {
-        params: {
-          q: city,
-        },
-      });
-      return response.data;
-    } catch (error: any) {
-      return error?.message;
-    }
+    const response = await weatherApi.get("search.json", {
+      params: {
+        q: city,
+      },
+    });
+    return response.data;
   }
 );
 
-const initialState: IApiLocation = {
+export const initialState: IApiLocation = {
   data: [],
   status: IApiStatus.Idle,
   error: null,
@@ -34,24 +30,17 @@ export const searchSlice = createSlice({
       state.status = IApiStatus.Loading;
     });
     builder.addCase(fetchSearch.fulfilled, (state, action) => {
-      if (action.payload != "Network Error") {
-        state.status = IApiStatus.Succeeded;
-        const loadedLocations: ILocation[] = action.payload.map(
-          (item: any) => ({
-            id: item.id,
-            name: item.name,
-            country: item.country,
-            region: item.region,
-            lat: item.lat,
-            lon: item.lon,
-            url: item.url,
-          })
-        );
-        state.data = loadedLocations;
-      } else {
-        state.status = IApiStatus.Failed;
-        state.error = action.payload;
-      }
+      state.status = IApiStatus.Succeeded;
+      const loadedLocations: ILocation[] = action.payload.map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        country: item.country,
+        region: item.region,
+        lat: item.lat,
+        lon: item.lon,
+        url: item.url,
+      }));
+      state.data = loadedLocations;
     });
     builder.addCase(fetchSearch.rejected, (state, action) => {
       state.status = IApiStatus.Failed;
